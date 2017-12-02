@@ -1,0 +1,8 @@
+.DS_Store
+package-lock.json
+yarn-error.log
+yarn.lock
+logs
+public
+README.md
+node_modules
