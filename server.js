@@ -15,24 +15,4 @@ app.use(webpackDevMiddleware(compiler, {
 const home = require('./routes/home.js');
 app.use('/', home);
 
-const login = require('./routes/login.js');
-app.use('/login', login);
-
-//Setup Logger
-const log4js = require('log4js');
-log4js.configure({
-	appenders: { info_log: { type: 'file', filename: 'logs/log_node.log' } },
-    categories: { default: { appenders: ['info_log'], level: 'info' } }
-});
-const logger = log4js.getLogger('info_log');
-//--
-//Setup Debug Logger
-logger.level = 'debug';
-app.set('env','development');
-
-if (app.get('env') === 'development') {
-    logger.debug("This is a sample Debug");
-}
-//--
-
 app.listen(port)

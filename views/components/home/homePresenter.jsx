@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 // import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import { fetchHomeMessage } from '../../../services/shared_api';
 import homepageStyles from './home.scss';
 
 export default class HomePresenter extends Component {
@@ -11,9 +10,7 @@ export default class HomePresenter extends Component {
 	}
 
 	onSubmit() {
-		fetchHomeMessage().then(res => {
-			this.setState({ message: res.data.message });
-		});
+		//do something
 	}
 
 	render() {
