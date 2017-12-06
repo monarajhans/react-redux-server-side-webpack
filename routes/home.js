@@ -9,30 +9,34 @@ import { renderToString } from 'react-dom/server'
 import ReactDOMServer from 'react-dom/server';
 import Template from '../views/templates/template';
 import ContextProvider from './contextProvider'
+var styleCollector = require("../server/style-collector");
 
 var router = express.Router();
+var path = require("path");
+var page = require("../server/page.generated.js");
+var stats = require("../server/stats.generated.json");
 
-// ENDPOINT: /
+// ENDPOINT: /home
 // METHOD: GET
 router.get('/', function(req, res) {
-	//Initialize the data with the response from fetchJavaResponse - For now just sending a hash
-	const css = new Set(); // CSS for all rendered React components
-  // const context = { insertCss: (...styles) => styles.forEach(style => css.add(style._getCss())) };
-
 	let preloadedState = { shipper: { view: "from_home_server" } }
 	const store = createStore(MainStore, preloadedState)
 	const temp = fetchJavaResponse ();
 	const context = store;
-	const html = renderToString(
-		<Provider store={store}>
-			{/* <ContextProvider className="container" context={context}> */}
-			<StaticRouter context={context}>
-				<Routes context={context} />
-			</StaticRouter>
-		{/* </ContextProvider> */}
-		</Provider>
-		)
-	res.send(Template(html, preloadedState));
+
+	// var css = styleCollector.collect(function() {
+	// 	html = ReactDOMServer.renderToString(<Application url={req.url}/>);
+	// });
+  //
+	// const html = renderToString(
+	// 	<Provider store={store}>
+	// 		<StaticRouter context={context}>
+	// 			<Routes context={context} />
+	// 		</StaticRouter>
+	// 	</Provider>
+	// 	)
+	// res.send(Template(html, preloadedState));
+	res.end(page(req, stats.assetsByChunkName.main));
 });
 
 function fetchJavaResponse () {

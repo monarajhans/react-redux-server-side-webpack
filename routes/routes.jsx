@@ -2,7 +2,6 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Switch, Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import Template from '../views/templates/template';
 import HomeContainer from '../views/components/home/homeContainer';
 import AboutContainer from '../views/components/about/aboutContainer';
 import LoginContainer from '../views/components/login/loginContainer';

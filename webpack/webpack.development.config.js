@@ -1,76 +1,52 @@
-const path = require('path');
+var path = require("path");
+
+var commonLoaders = [
+	{ test: /\.(js|jsx)$/, loader: "babel-loader" },
+	{ test: /\.png$/, loader: "url-loader" },
+	{ test: /\.jpg$/, loader: "file-loader" },
+];
+var assetsPath = path.join(__dirname, "../public", "assets");
+var publicPath = "assets/";
 
 module.exports = [
 	{
-		name: 'server',
-		target: 'web',
-		entry: './routes/server_renderer.jsx',
+		// The configuration for the client
+		name: "browser",
+		entry: "./app/entry.js",
 		output: {
-			path: path.join(__dirname, '../public'),
-			filename: 'server.js',
-			publicPath: '/public/',
+			path: assetsPath,
+			filename: "[hash].js",
+			publicPath: publicPath
 		},
-		resolve: {
-			extensions: ['.js', '.jsx']
-		},
-		devtool: 'source-map',
 		module: {
-			rules: [
-				{
-					test: /\.(js|jsx)$/,
-					exclude: /(node_modules\/)/,
-					use: [{ loader: 'babel-loader' }]
-				},
-				{
-					test: /\.scss$/,
-					use: [{ loader: 'isomorphic-style-loader' },
-						{
-							loader: 'css-loader',
-							options: {
-								modules: true,
-								importLoaders: 1,
-								localIdentName: '[name]__[local]___[hash:base64:5]',
-								sourceMap: true
-							}
-						},
-						{ loader: 'sass-loader' }]
-				}
-			],
+			loaders: commonLoaders.concat([
+				{ test: /\.css$/, loader: "style-loader!css-loader" },
+			])
 		},
+		plugins: [
+			function(compiler) {
+				this.plugin("done", function(stats) {
+					require("fs").writeFileSync(path.join(__dirname, "../server", "stats.generated.json"), JSON.stringify(stats.toJson()));
+				});
+			}
+		]
 	},
 	{
-		name: 'client',
-		target: 'web',
-		entry: './routes/client.jsx',
+		// The configuration for the server-side rendering
+		name: "server-side rendering",
+		entry: "./server/page.js",
+		target: "node",
 		output: {
-			path: path.join(__dirname, '../public'),
-			filename: 'client.js',
-			publicPath: '/public/',
+			path: assetsPath,
+			filename: "../../server/page.generated.js",
+			publicPath: publicPath,
+			libraryTarget: "commonjs2"
 		},
-		resolve: { extensions: ['.js', '.jsx'] },
-		devtool: 'source-map',
+		externals: /^[a-z\-0-9]+$/,
 		module: {
-			rules: [
-				{
-					test: /\.(js|jsx)$/,
-					exclude: /(node_modules\/)/,
-					use: [{ loader: 'babel-loader' }]
-				},
-				{
-					test: /\.scss$/,
-					use: [{ loader: 'isomorphic-style-loader' },
-						{
-							loader: 'css-loader',
-							options: {
-								modules: true,
-								importLoaders: 1,
-								localIdentName: '[name]__[local]___[hash:base64:5]',
-								sourceMap: true
-							}
-						},
-						{ loader: 'sass-loader' }]
-				}
-			],
-		},
-	},
+			loaders: commonLoaders.concat([
+				{ test: /\.css$/,  loader: path.join(__dirname, "../server", "style-collector") + "!css-loader" },
+			])
+		}
+	}
 ];
