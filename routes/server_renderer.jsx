@@ -8,7 +8,6 @@ import Routes from './routes.jsx';
 export default function serverRenderer({ clientStats, serverStats }) {
 	return (req, res, next) => {
 		const context = {};
-		// TODO: Add back-end controller to send some data to the view Ticket#SYM-49
 		const markup = ReactDOMServer.renderToString(
 			<StaticRouter location={ req.url } context={ context }>
 				<Routes />

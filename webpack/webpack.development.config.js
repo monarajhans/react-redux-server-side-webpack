@@ -2,15 +2,17 @@ const path = require('path');
 
 module.exports = [
 	{
-		name: 'client',
+		name: 'server',
 		target: 'web',
-		entry: './routes/client.jsx',
+		entry: './routes/server_renderer.jsx',
 		output: {
 			path: path.join(__dirname, '../public'),
-			filename: 'client.js',
+			filename: 'server.js',
 			publicPath: '/public/',
 		},
-		resolve: { extensions: ['.js', '.jsx'] },
+		resolve: {
+			extensions: ['.js', '.jsx']
+		},
 		devtool: 'source-map',
 		module: {
 			rules: [
@@ -37,17 +39,15 @@ module.exports = [
 		},
 	},
 	{
-		name: 'server',
+		name: 'client',
 		target: 'web',
-		entry: './routes/server_renderer.jsx',
+		entry: './routes/client.jsx',
 		output: {
 			path: path.join(__dirname, '../public'),
-			filename: 'server.js',
+			filename: 'client.js',
 			publicPath: '/public/',
 		},
-		resolve: {
-			extensions: ['.js', '.jsx']
-		},
+		resolve: { extensions: ['.js', '.jsx'] },
 		devtool: 'source-map',
 		module: {
 			rules: [
