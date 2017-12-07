@@ -9,6 +9,9 @@ import { renderToString } from 'react-dom/server'
 import ReactDOMServer from 'react-dom/server';
 import Template from '../views/templates/template';
 import ContextProvider from './contextProvider'
+import Application from '../app/Application'
+// import HomeContainer from '../views/components/home/homeContainer'
+
 var styleCollector = require("../server/style-collector");
 
 var router = express.Router();
@@ -23,17 +26,13 @@ router.get('/', function(req, res) {
 	const store = createStore(MainStore, preloadedState)
 	const temp = fetchJavaResponse ();
 	const context = store;
-
-	// var css = styleCollector.collect(function() {
-	// 	html = ReactDOMServer.renderToString(<Application url={req.url}/>);
-	// });
-  //
-	// const html = renderToString(
+	// const htmlElement = <HomeContainer url={req.url}/>;
+	// const htmlElement = renderToString(
 	// 	<Provider store={store}>
-	// 		<StaticRouter context={context}>
-	// 			<Routes context={context} />
-	// 		</StaticRouter>
-	// 	</Provider>
+	//  		{/* <StaticRouter context={context}> */}
+	//  			<HomeContainer url={req.url}/>
+	//  		{/* </StaticRouter> */}
+	//  	</Provider>
 	// 	)
 	// res.send(Template(html, preloadedState));
 	res.end(page(req, stats.assetsByChunkName.main));

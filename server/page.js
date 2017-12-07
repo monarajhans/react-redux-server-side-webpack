@@ -1,12 +1,9 @@
-var Application = require("../app/Application");
-var styleCollector = require("./style-collector");
-
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import { StaticRouter } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import Application from '../app/Application'
+var styleCollector = require("./style-collector");
 
-module.exports = function(req, scriptFilename) {
+module.exports = function(req, scriptFilename, htmlElement) {
 
 	var html;
 	var css = styleCollector.collect(function() {

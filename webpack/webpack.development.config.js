@@ -1,7 +1,8 @@
 var path = require("path");
 
 var commonLoaders = [
-	{ test: /\.(js|jsx)$/, loader: "babel-loader" },
+	{ test: /\.js$/, exclude: /(node_modules\/)/, loader: "babel-loader" },
+	{ test: /\.jsx$/, exclude: /(node_modules\/)/, loader: "babel-loader" },
 	{ test: /\.png$/, loader: "url-loader" },
 	{ test: /\.jpg$/, loader: "file-loader" },
 ];

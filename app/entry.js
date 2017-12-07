@@ -1,6 +1,7 @@
 var React = require("react");
 import ReactDOM from 'react-dom';
-var Application = require("./Application");
+// var Application = require("./Application");
+import Application from "../views/components/home/homeContainer"
 
 ReactDOM.render(
 	<Application url={location.pathname + (location.search || "")} />,

@@ -1,9 +1,5 @@
 {
-  "presets": [
-    "es2015",
-    "react",
-    "stage-0"
-  ],
+  "presets": ["es2015", "react", "stage-0"],
   "plugins": ["transform-decorators-legacy", ["transform-assets", {
                 "extensions": ["scss"],
                 "name": "[name].[ext]?[sha512:hash:base64:7]",
